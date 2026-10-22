@@ -72,6 +72,10 @@ app.get("/agora", (req, res) => {
   res.send(page("Agora", `<p>Este pedido foi respondido às <b>${now}</b>.</p>`));
 });
 
+app.get("/api/cartas", (req, res) => {
+  res.json(cards);
+})
+
 app.use((req, res) => {
   res.status(404).send(page(
     "404 — não encontrado",
