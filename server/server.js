@@ -73,6 +73,7 @@ app.get("/agora", (req, res) => {
 });
 
 app.get("/api/cartas", (req, res) => {
+  
   res.json(cards);
 })
 
