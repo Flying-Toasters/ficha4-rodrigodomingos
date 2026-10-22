@@ -10,12 +10,21 @@ function App() {
   const [randomCard, setRandomCard] = useState(null);
   const [sorted, setSorted] = useState(false);
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
     useEffect(() => {
     fetch("http://localhost:3000/api/cartas")
     .then((res) => res.json())
-    .then((data) => setCards(data));
+    .then((data) => {
+        setCards(data);
+        setLoading(false);
+    })
+    .finally(() => {
+      loading = false;
+    })
   }, []);
+
+  if (loading) return <p>Loading...</p>;
 
   let visible = cards
     .filter((card) => filter === "Todas" || card.type === filter)
