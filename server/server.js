@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors"); 
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +11,8 @@ const cards = [
   { name: "Sentinela de Âmbar", type: "Criatura", attack: 6, defense: 6 },
   { name: "Eco do Vazio", type: "Feitiço", attack: 0, defense: 0 },
 ];
+
+app.use(cors());
 
 function page(title, body) {
   return `<!DOCTYPE html>
@@ -73,7 +76,6 @@ app.get("/agora", (req, res) => {
 });
 
 app.get("/api/cartas", (req, res) => {
-  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
   res.json(cards);
 })
 

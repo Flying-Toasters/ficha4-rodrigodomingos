@@ -11,20 +11,27 @@ function App() {
   const [sorted, setSorted] = useState(false);
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
     useEffect(() => {
-    fetch("http://localhost:3000/api/cartas")
-    .then((res) => res.json())
+    fetch("http://localhost:3000/api/cartass")
+    .then((res) => {
+      if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+      return res.json();
+    })
     .then((data) => {
-        setCards(data);
-        setLoading(false);
+      setCards(data);
+    })
+    .catch((error) => {
+      setError(error);
     })
     .finally(() => {
-      loading = false;
-    })
+      setLoading(false);
+    });
   }, []);
 
   if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   let visible = cards
     .filter((card) => filter === "Todas" || card.type === filter)
