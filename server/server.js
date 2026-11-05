@@ -57,7 +57,7 @@ app.get("/cartas", (req, res) => {
 });
 
 app.get("/cartas/aleatoria", (req, res) => {
-  const card = cards[Math.floor(Math.random() * cards.length)];
+   const card = cards[Math.floor(Math.random() * cards.length)];
 
   res.send(page(
     "Carta à sorte",
@@ -77,6 +77,12 @@ app.get("/agora", (req, res) => {
 
 app.get("/api/cartas", (req, res) => {
   res.json(cards);
+})
+
+app.get("/api/cartas/aleatoria", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "http://localhost:5173");
+  const card = cards[Math.floor(Math.random() * cards.length)];
+  res.json(card);
 })
 
 app.use((req, res) => {

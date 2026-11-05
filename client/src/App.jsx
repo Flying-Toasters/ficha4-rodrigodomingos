@@ -7,27 +7,27 @@ import Card from "./Card.jsx";
 function App() {
   const [filter, setFilter] = useState("Todas");
   const [search, setSearch] = useState("");
-  const [randomCard, setRandomCard] = useState(null);
+  const [randomCard, setRandomCard] = useState([]);
   const [sorted, setSorted] = useState(false);
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-    useEffect(() => {
-    fetch("http://localhost:3000/api/cartass")
-    .then((res) => {
-      if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
-      return res.json();
-    })
-    .then((data) => {
-      setCards(data);
-    })
-    .catch((error) => {
-      setError(error);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
+  useEffect(() => {
+    fetch("http://localhost:3000/api/cartas")
+      .then((res) => {
+        if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -41,8 +41,27 @@ function App() {
     visible = [...visible].sort((a, b) => b.attack - a.attack);
   }
 
+  useEffect
   function pickRandom() {
-    setRandomCard(cards[Math.floor(Math.random() * cards.length)]);
+    fetch("http://localhost:3000/api/cartas/aleatoria")
+      .then((res) => {
+        if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        setRandomCard(data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
+
+
   }
 
   return (
